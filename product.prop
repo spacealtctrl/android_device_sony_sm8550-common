@@ -2,3 +2,10 @@
 ro.config.media_vol_steps=15
 ro.config.vc_call_vol_steps=8
 
+# RKP
+remote_provisioning.enable_rkpd=true
+remote_provisioning.hostname=remoteprovisioning.googleapis.com
+
+# Google Client ID
+ro.com.google.clientidbase=android-sonymobile
+import /odm/etc/customization/oem/${ro.boot.hardware.sku}/config.prop *
