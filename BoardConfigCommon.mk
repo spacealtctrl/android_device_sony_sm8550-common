@@ -144,6 +144,7 @@ AUDIO_FEATURE_ENABLED_GEF_SUPPORT := true
 AUDIO_FEATURE_ENABLED_GKI := true
 AUDIO_FEATURE_ENABLED_INSTANCE_ID := true
 AUDIO_FEATURE_ENABLED_AGM_HIDL := true
+AUDIO_FEATURE_ENABLED_LSM_HIDL := true
 AUDIO_FEATURE_ENABLED_PAL_HIDL := true
 AUDIO_FEATURE_ENABLED_PROXY_DEVICE := true
 AUDIO_FEATURE_ENABLED_SSR := true
@@ -152,6 +153,7 @@ BOARD_SUPPORTS_OPENSOURCE_STHAL := true
 BOARD_SUPPORTS_SOUND_TRIGGER := true
 BOARD_USES_ALSA_AUDIO := true
 TARGET_PROVIDES_AUDIO_HAL := true
+TARGET_USE_CENTRAL_VINTF := true
 TARGET_PROVIDES_LIBAGM := true
 TARGET_PROVIDES_LIBAR_PAL := true
 TARGET_USES_QCOM_MM_AUDIO := true
@@ -164,8 +166,8 @@ DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE += \
     hardware/qcom-caf/common/vendor_framework_compatibility_matrix.xml \
     hardware/sony/vintf/device_framework_matrix.xml
 DEVICE_FRAMEWORK_MANIFEST_FILE += $(COMMON_PATH)/framework_manifest.xml
-DEVICE_MATRIX_FILE := hardware/qcom-caf/common/compatibility_matrix.xml
-DEVICE_MANIFEST_FILE := \
+DEVICE_MATRIX_FILE += hardware/qcom-caf/common/compatibility_matrix.xml
+DEVICE_MANIFEST_FILE += \
     $(COMMON_PATH)/manifest.xml \
     $(COMMON_PATH)/network_manifest.xml \
     hardware/qcom-caf/sm8550/audio/primary-hal/configs/common/manifest_non_qmaa.xml \
@@ -231,7 +233,6 @@ VENDOR_SECURITY_PATCH := $(BOOT_SECURITY_PATCH)
 # Sepolicy
 include device/qcom/sepolicy_vndr/SEPolicy.mk
 include hardware/sony/sepolicy/qti/SEPolicy.mk
-BOARD_VENDOR_SEPOLICY_DIRS += vendor/dolby/sepolicy
 
 # Verified Boot
 BOARD_AVB_ENABLE := true
