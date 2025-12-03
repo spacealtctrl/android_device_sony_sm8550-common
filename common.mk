@@ -475,5 +475,11 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     XperiaParts
 
+# Dolby Atmos
+$(call inherit-product, vendor/dolby/dolby.mk)
+
+# Sony Camera
+$(call inherit-product, vendor/sony/extra/camera.mk)
+
 # Inherit from proprietary files makefile
 $(call inherit-product, vendor/sony/sm8550-common/sm8550-common-vendor.mk)
