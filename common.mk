@@ -476,7 +476,7 @@ PRODUCT_PACKAGES += \
     XperiaParts
 
 # Dolby Atmos
-$(call inherit-product, hardware/dolby/dolby.mk)
+$(call inherit-product, vendor/dolby/dolby.mk)
 
 # Sony Camera
 $(call inherit-product, vendor/sony/extra/camera.mk)
