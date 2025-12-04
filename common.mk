@@ -478,12 +478,5 @@ PRODUCT_PACKAGES += \
 # Dolby
 $(call inherit-product, vendor/dolby/dolby.mk)
 
-# Sony Extra Apps
-PRODUCT_PACKAGES += \
-    AuroraStore \
-    SonyMusic \
-    PhotoPro \
-    privapp-permissions-extra.xml
-
 # Inherit from proprietary files makefile
 $(call inherit-product, vendor/sony/sm8550-common/sm8550-common-vendor.mk)
