@@ -482,7 +482,8 @@ $(call inherit-product, vendor/dolby/dolby.mk)
 PRODUCT_PACKAGES += \
     AuroraStore \
     SonyMusic \
-    PhotoPro
+    PhotoPro \
+    privapp-permissions-extra.xml
 
 # Inherit from proprietary files makefile
 $(call inherit-product, vendor/sony/sm8550-common/sm8550-common-vendor.mk)
