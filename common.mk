@@ -478,5 +478,8 @@ PRODUCT_PACKAGES += \
 # Dolby
 $(call inherit-product, vendor/dolby/dolby.mk)
 
+# Sony Extra Apps
+$(call inherit-product-if-exists, vendor/sony/extra/extra.mk)
+
 # Inherit from proprietary files makefile
 $(call inherit-product, vendor/sony/sm8550-common/sm8550-common-vendor.mk)
