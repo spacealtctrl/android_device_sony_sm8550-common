@@ -103,7 +103,7 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                              samplingRates="48000" channelMasks="AUDIO_CHANNEL_OUT_STEREO"/>
                 </mixPort>
                 <mixPort name="raw" role="source" recommendedMuteDurationMs="63"
-                         flags="AUDIO_OUTPUT_FLAG_FAST AUDIO_OUTPUT_FLAG_RAW">
+                        flags="AUDIO_OUTPUT_FLAG_FAST AUDIO_OUTPUT_FLAG_RAW">
                     <profile name="" format="AUDIO_FORMAT_PCM_16_BIT"
                              samplingRates="48000" channelMasks="AUDIO_CHANNEL_OUT_STEREO"/>
                 </mixPort>
@@ -112,7 +112,7 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                              samplingRates="48000" channelMasks="AUDIO_CHANNEL_OUT_STEREO_HAPTIC_A"/>
                 </mixPort>
                 <mixPort name="deep_buffer" role="source"
-                         flags="AUDIO_OUTPUT_FLAG_DEEP_BUFFER">
+                        flags="AUDIO_OUTPUT_FLAG_DEEP_BUFFER">
                     <profile name="" format="AUDIO_FORMAT_PCM_16_BIT"
                              samplingRates="48000" channelMasks="AUDIO_CHANNEL_OUT_STEREO"/>
                     <!--
@@ -140,7 +140,7 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                              samplingRates="48000" channelMasks="AUDIO_CHANNEL_OUT_STEREO"/>
                 </mixPort>
                 <mixPort name="direct_pcm" role="source"
-                         flags="AUDIO_OUTPUT_FLAG_DIRECT" maxOpenCount="3" maxActiveCount="3">
+                        flags="AUDIO_OUTPUT_FLAG_DIRECT" maxOpenCount="3" maxActiveCount="3">
                     <profile name="" format="AUDIO_FORMAT_PCM_16_BIT"
                              samplingRates="8000 11025 12000 16000 22050 24000 32000 44100 48000 64000 88200 96000 128000 176400 192000"
                              channelMasks="AUDIO_CHANNEL_OUT_MONO AUDIO_CHANNEL_OUT_STEREO AUDIO_CHANNEL_OUT_2POINT1 AUDIO_CHANNEL_OUT_QUAD AUDIO_CHANNEL_OUT_PENTA AUDIO_CHANNEL_OUT_5POINT1 AUDIO_CHANNEL_OUT_6POINT1 AUDIO_CHANNEL_OUT_7POINT1"/>
@@ -150,7 +150,7 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                     <profile name="" format="AUDIO_FORMAT_PCM_24_BIT_PACKED"
                              samplingRates="8000 11025 12000 16000 22050 24000 32000 44100 48000 64000 88200 96000 128000 176400 192000 352800 384000"
                              channelMasks="AUDIO_CHANNEL_OUT_MONO AUDIO_CHANNEL_OUT_STEREO AUDIO_CHANNEL_OUT_2POINT1 AUDIO_CHANNEL_OUT_QUAD AUDIO_CHANNEL_OUT_PENTA AUDIO_CHANNEL_OUT_5POINT1 AUDIO_CHANNEL_OUT_6POINT1 AUDIO_CHANNEL_OUT_7POINT1"/>
-                    <profile name="" format="AUDIO_FORMAT_PCM_32_BIT"
+                  <profile name="" format="AUDIO_FORMAT_PCM_32_BIT"
                              samplingRates="8000 11025 12000 16000 22050 24000 32000 44100 48000 64000 88200 96000 128000 176400 192000 352800 384000"
                              channelMasks="AUDIO_CHANNEL_OUT_MONO AUDIO_CHANNEL_OUT_STEREO AUDIO_CHANNEL_OUT_2POINT1 AUDIO_CHANNEL_OUT_QUAD AUDIO_CHANNEL_OUT_PENTA AUDIO_CHANNEL_OUT_5POINT1 AUDIO_CHANNEL_OUT_6POINT1 AUDIO_CHANNEL_OUT_7POINT1"/>
                 </mixPort>
@@ -212,7 +212,7 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                              samplingRates="8000 16000 32000 48000" channelMasks="AUDIO_CHANNEL_OUT_MONO"/>
                 </mixPort>
                 <mixPort name="incall_music_uplink" role="source"
-                         flags="AUDIO_OUTPUT_FLAG_INCALL_MUSIC">
+                        flags="AUDIO_OUTPUT_FLAG_INCALL_MUSIC">
                     <profile name="" format="AUDIO_FORMAT_PCM_16_BIT"
                              samplingRates="8000 16000 48000"
                              channelMasks="AUDIO_CHANNEL_OUT_STEREO"/>
@@ -233,14 +233,14 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 -->
                 <mixPort name="fast input" role="sink"
                          flags="AUDIO_INPUT_FLAG_FAST">
-                    <profile name="" format="AUDIO_FORMAT_PCM_16_BIT"
-                             samplingRates="8000 11025 12000 16000 22050 24000 32000 44100 48000"
-                             channelMasks="AUDIO_CHANNEL_IN_MONO AUDIO_CHANNEL_IN_STEREO AUDIO_CHANNEL_IN_FRONT_BACK"/>
+                     <profile name="" format="AUDIO_FORMAT_PCM_16_BIT"
+                              samplingRates="8000 11025 12000 16000 22050 24000 32000 44100 48000"
+                              channelMasks="AUDIO_CHANNEL_IN_MONO AUDIO_CHANNEL_IN_STEREO AUDIO_CHANNEL_IN_FRONT_BACK"/>
                 </mixPort>
                 <mixPort name="quad mic" role="sink">
                     <profile name="" format="AUDIO_FORMAT_PCM_16_BIT"
-                             samplingRates="48000"
-                             channelMasks="AUDIO_CHANNEL_INDEX_MASK_4"/>
+                        samplingRates="48000"
+                        channelMasks="AUDIO_CHANNEL_INDEX_MASK_4"/>
                 </mixPort>
                 <mixPort name="voip_tx" role="sink"
                          flags="AUDIO_INPUT_FLAG_VOIP_TX">
@@ -291,16 +291,12 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             <devicePorts>
                 <!-- Output devices declaration, i.e. Sink DEVICE PORT -->
                 <devicePort tagName="Earpiece" type="AUDIO_DEVICE_OUT_EARPIECE" role="sink">
-                    <profile name="" format="AUDIO_FORMAT_PCM_16_BIT"
-                             samplingRates="48000" channelMasks="AUDIO_CHANNEL_OUT_MONO"/>
+                   <profile name="" format="AUDIO_FORMAT_PCM_16_BIT"
+                            samplingRates="48000" channelMasks="AUDIO_CHANNEL_OUT_MONO"/>
                 </devicePort>
                 <devicePort tagName="Speaker" role="sink" type="AUDIO_DEVICE_OUT_SPEAKER" address="">
                     <profile name="" format="AUDIO_FORMAT_PCM_16_BIT"
-                             samplingRates="48000 96000" channelMasks="AUDIO_CHANNEL_OUT_STEREO"/>
-                    <profile name="" format="AUDIO_FORMAT_PCM_32_BIT"
-                             samplingRates="48000 96000" channelMasks="AUDIO_CHANNEL_OUT_STEREO"/>
-                    <profile name="" format="AUDIO_FORMAT_PCM_FLOAT"
-                             samplingRates="48000 96000" channelMasks="AUDIO_CHANNEL_OUT_STEREO"/>
+                             samplingRates="48000" channelMasks="AUDIO_CHANNEL_OUT_STEREO"/>
                 </devicePort>
                 <devicePort tagName="Speaker Safe" role="sink" type="AUDIO_DEVICE_OUT_SPEAKER_SAFE" address="">
                     <profile name="" format="AUDIO_FORMAT_PCM_16_BIT"
@@ -309,23 +305,17 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 <devicePort tagName="Wired Headset" type="AUDIO_DEVICE_OUT_WIRED_HEADSET" role="sink">
                     <profile name="" format="AUDIO_FORMAT_PCM_16_BIT"
                              samplingRates="48000 96000 192000" channelMasks="AUDIO_CHANNEL_OUT_STEREO"/>
-                    <profile name="" format="AUDIO_FORMAT_PCM_32_BIT"
-                             samplingRates="48000 96000 192000" channelMasks="AUDIO_CHANNEL_OUT_STEREO"/>
                     <profile name="" format="AUDIO_FORMAT_PCM_FLOAT"
                              samplingRates="48000 96000 192000" channelMasks="AUDIO_CHANNEL_OUT_STEREO"/>
                 </devicePort>
                 <devicePort tagName="Wired Headphones" type="AUDIO_DEVICE_OUT_WIRED_HEADPHONE" role="sink">
                     <profile name="" format="AUDIO_FORMAT_PCM_16_BIT"
                              samplingRates="48000 96000 192000" channelMasks="AUDIO_CHANNEL_OUT_STEREO"/>
-                    <profile name="" format="AUDIO_FORMAT_PCM_32_BIT"
-                             samplingRates="48000 96000 192000" channelMasks="AUDIO_CHANNEL_OUT_STEREO"/>
                     <profile name="" format="AUDIO_FORMAT_PCM_FLOAT"
                              samplingRates="48000 96000 192000" channelMasks="AUDIO_CHANNEL_OUT_STEREO"/>
                 </devicePort>
                 <devicePort tagName="Line" type="AUDIO_DEVICE_OUT_LINE" role="sink">
                     <profile name="" format="AUDIO_FORMAT_PCM_16_BIT"
-                             samplingRates="48000 96000 192000" channelMasks="AUDIO_CHANNEL_OUT_STEREO"/>
-                    <profile name="" format="AUDIO_FORMAT_PCM_32_BIT"
                              samplingRates="48000 96000 192000" channelMasks="AUDIO_CHANNEL_OUT_STEREO"/>
                     <profile name="" format="AUDIO_FORMAT_PCM_FLOAT"
                              samplingRates="48000 96000 192000" channelMasks="AUDIO_CHANNEL_OUT_STEREO"/>
@@ -362,8 +352,6 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                             encodedFormats="AUDIO_FORMAT_SBC AUDIO_FORMAT_AAC AUDIO_FORMAT_APTX AUDIO_FORMAT_APTX_HD AUDIO_FORMAT_LDAC AUDIO_FORMAT_CELT AUDIO_FORMAT_APTX_ADAPTIVE AUDIO_FORMAT_APTX_TWSP">
                     <profile name="" format="AUDIO_FORMAT_PCM_16_BIT"
                              samplingRates="48000 96000" channelMasks="AUDIO_CHANNEL_OUT_STEREO"/>
-                    <profile name="" format="AUDIO_FORMAT_PCM_32_BIT"
-                             samplingRates="48000 96000" channelMasks="AUDIO_CHANNEL_OUT_STEREO"/>
                     <profile name="" format="AUDIO_FORMAT_PCM_FLOAT"
                              samplingRates="48000 96000" channelMasks="AUDIO_CHANNEL_OUT_STEREO"/>
                 </devicePort>
@@ -371,16 +359,12 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                             encodedFormats="AUDIO_FORMAT_SBC AUDIO_FORMAT_AAC AUDIO_FORMAT_APTX AUDIO_FORMAT_APTX_HD AUDIO_FORMAT_LDAC AUDIO_FORMAT_CELT AUDIO_FORMAT_APTX_ADAPTIVE AUDIO_FORMAT_APTX_TWSP">
                     <profile name="" format="AUDIO_FORMAT_PCM_16_BIT"
                              samplingRates="48000 96000" channelMasks="AUDIO_CHANNEL_OUT_STEREO"/>
-                    <profile name="" format="AUDIO_FORMAT_PCM_32_BIT"
-                             samplingRates="48000 96000" channelMasks="AUDIO_CHANNEL_OUT_STEREO"/>
                     <profile name="" format="AUDIO_FORMAT_PCM_FLOAT"
                              samplingRates="48000 96000" channelMasks="AUDIO_CHANNEL_OUT_STEREO"/>
                 </devicePort>
                 <devicePort tagName="BT A2DP Speaker" type="AUDIO_DEVICE_OUT_BLUETOOTH_A2DP_SPEAKER" role="sink"
                             encodedFormats="AUDIO_FORMAT_SBC AUDIO_FORMAT_AAC AUDIO_FORMAT_APTX AUDIO_FORMAT_APTX_HD AUDIO_FORMAT_LDAC AUDIO_FORMAT_CELT AUDIO_FORMAT_APTX_ADAPTIVE AUDIO_FORMAT_APTX_TWSP">
                     <profile name="" format="AUDIO_FORMAT_PCM_16_BIT"
-                             samplingRates="48000 96000" channelMasks="AUDIO_CHANNEL_OUT_STEREO"/>
-                    <profile name="" format="AUDIO_FORMAT_PCM_32_BIT"
                              samplingRates="48000 96000" channelMasks="AUDIO_CHANNEL_OUT_STEREO"/>
                     <profile name="" format="AUDIO_FORMAT_PCM_FLOAT"
                              samplingRates="48000 96000" channelMasks="AUDIO_CHANNEL_OUT_STEREO"/>
@@ -461,8 +445,8 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 </devicePort>
                 <devicePort tagName="A2DP In" type="AUDIO_DEVICE_IN_BLUETOOTH_A2DP" role="source"
                             encodedFormats="AUDIO_FORMAT_LC3">
-                    <profile name="" format="AUDIO_FORMAT_PCM_16_BIT"
-                             samplingRates="44100 48000" channelMasks="AUDIO_CHANNEL_IN_MONO AUDIO_CHANNEL_IN_STEREO"/>
+                   <profile name="" format="AUDIO_FORMAT_PCM_16_BIT"
+                            samplingRates="44100 48000" channelMasks="AUDIO_CHANNEL_IN_MONO AUDIO_CHANNEL_IN_STEREO"/>
                 </devicePort>
                 <devicePort tagName="Echo Reference" type="AUDIO_DEVICE_IN_ECHO_REFERENCE" role="source">
                     <profile name="" format="AUDIO_FORMAT_PCM_16_BIT"
