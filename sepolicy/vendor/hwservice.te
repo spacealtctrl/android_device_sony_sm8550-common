@@ -1,2 +1,0 @@
-# Dolby DMS hwservice type
-type hal_dms_hwservice, hwservice_manager_type;
