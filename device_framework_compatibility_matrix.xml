@@ -1,0 +1,102 @@
+<compatibility-matrix version="1.0" type="framework">
+    <!-- NXP NFC HAL -->
+    <hal format="hidl" optional="true">
+        <name>vendor.nxp.nxpnfc</name>
+        <version>2.4</version>
+        <interface>
+            <name>INxpNfc</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+
+    <!-- SEMC Display HALs -->
+    <hal format="hidl" optional="true">
+        <name>vendor.semc.hardware.display</name>
+        <version>2.5</version>
+        <interface>
+            <name>IDisplay</name>
+            <instance>default</instance>
+        </interface>
+        <interface>
+            <name>IFramerateController</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+
+    <!-- SEMC ExtLight AIDL HAL -->
+    <hal format="aidl" optional="true">
+        <name>vendor.semc.hardware.extlight</name>
+        <interface>
+            <name>IExtLight</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+
+    <!-- SEMC SPC AIDL HAL -->
+    <hal format="aidl" optional="true">
+        <name>vendor.semc.hardware.spc</name>
+        <interface>
+            <name>ISpc</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+
+    <!-- SEMC IDD HAL -->
+    <hal format="hidl" optional="true">
+        <name>vendor.semc.system.idd</name>
+        <version>1.1</version>
+        <interface>
+            <name>IIdd</name>
+            <instance>default</instance>
+            <instance>logreader</instance>
+        </interface>
+    </hal>
+
+    <!-- SOMC AIDL Miscta HAL -->
+    <hal format="aidl" optional="true">
+        <name>vendor.somc.hardware.aidlmiscta</name>
+        <interface>
+            <name>IMisctaGlobal</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+
+    <!-- SOMC Miscta HAL -->
+    <hal format="hidl" optional="true">
+        <name>vendor.somc.hardware.miscta</name>
+        <version>1.0</version>
+        <interface>
+            <name>IMisctaGlobal</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+
+    <!-- SOMC NFC HAL -->
+    <hal format="hidl" optional="true">
+        <name>vendor.somc.hardware.nfc</name>
+        <version>1.0</version>
+        <interface>
+            <name>ISomcNfc</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+
+    <!-- SOMC Security HAL -->
+    <hal format="hidl" optional="true">
+        <name>vendor.somc.hardware.security.secd</name>
+        <version>1.1</version>
+        <interface>
+            <name>IDeviceSecurity</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+
+    <!-- SOMC Video Effect AIDL HAL -->
+    <hal format="aidl" optional="true">
+        <name>vendor.somc.hardware.videoeffect</name>
+        <interface>
+            <name>IAidlSwiqi</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+</compatibility-matrix>
