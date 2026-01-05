@@ -12,8 +12,10 @@ service msim_sh /odm/bin/init.qcom.msim.sh
 on boot
     # Enable smart charging
     wait /sys/class/battchg_ext/smart_charging_activation
-    write /sys/class/battchg_ext/smart_charging_activation 1
+    chown system system /sys/class/battchg_ext/smart_charging_activation
     chown system system /sys/class/battchg_ext/smart_charging_interruption
+    write /sys/class/battchg_ext/smart_charging_activation 1
+    write /sys/class/battchg_ext/smart_charging_interruption 0
 
     # Set up permission for touch framerate node
     chown system system /sys/devices/virtual/input/lxs_ts_input/frame_rate_np
@@ -71,9 +73,6 @@ on property:ro.vendor.ltalabel.model=XQ-DQ44
 
 on property:ro.vendor.ltalabel.model=XQ-DQ54
     setprop ro.vendor.product.rf.id pdx234-A4
-
-on property:ro.vendor.ltalabel.model=XQ-DQ62
-    setprop ro.vendor.product.rf.id pdx234-A2US
 
 on property:ro.vendor.ltalabel.model=XQ-DQ72
     setprop ro.vendor.product.rf.id pdx234-C2
