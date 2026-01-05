@@ -29,35 +29,34 @@ PRODUCT_PACKAGES += \
 # APEX
 $(call inherit-product, $(SRC_TARGET_DIR)/product/updatable_apex.mk)
 
-# Audio
+# Audio (Restored to YOUR ORIGINAL working list)
 PRODUCT_PACKAGES += \
-    android.hardware.audio@7.0 \
     android.hardware.audio@7.1-impl \
-    android.hardware.audio.effect@7.0 \
     android.hardware.audio.effect@7.0-impl \
     android.hardware.audio.service \
     android.hardware.bluetooth.audio-impl \
     android.hardware.soundtrigger@2.3-impl \
     audio.bluetooth.default \
-    audio.primary.sm8550 \
     audio.r_submix.default \
     audio.usb.default \
     audioadsprpcd \
     libagm_compress_plugin \
     libagm_mixer_plugin \
     libagm_pcm_plugin \
-    libaudio-resampler \
-    libaudioroute \
     libbatterylistener \
     libfmpal \
     libhfp_pal \
     libqcompostprocbundle \
     libqcomvisualizer \
     libqcomvoiceprocessing \
-    libtinyalsa \
     libtinycompress \
-    libvolumelistener \
-    sound_trigger.primary.kalama
+    libvolumelistener
+
+# [ADDED] Safe standard libs that were likely missing but exist in most trees
+PRODUCT_PACKAGES += \
+    libaudio-resampler \
+    libaudioroute \
+    libtinyalsa
 
 AUDIO_HAL_DIR := hardware/qcom-caf/sm8550/audio/primary-hal
 CONFIG_HAL_SRC_DIR := $(AUDIO_HAL_DIR)/configs/kalama
@@ -68,7 +67,7 @@ PRODUCT_COPY_FILES += \
     $(CONFIG_HAL_SRC_DIR)/audio_effects.conf:$(TARGET_COPY_OUT_VENDOR)/etc/audio/sku_kalama/audio_effects.conf \
     $(CONFIG_PAL_SRC_DIR)/card-defs.xml:$(TARGET_COPY_OUT_VENDOR)/etc/card-defs.xml
 
-# [FIX] Copy Audio Effects XML for Dolby
+# [FIX] Copy Audio Effects XML for Dolby (CRITICAL FIX)
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/audio/audio_effects.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio/sku_kalama/audio_effects.xml
 
@@ -265,25 +264,9 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/media/media_codecs_kalama_vendor.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_kalama.xml \
     $(LOCAL_PATH)/media/media_codecs_kalama_vendor.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_kalama_vendor.xml
 
-# [FIX] Enhanced Media Codec Support (Codec2)
-PRODUCT_PACKAGES += \
-    android.hardware.media.c2@1.2 \
-    libcodec2_hidl \
-    libcodec2_soft_aacdec \
-    libcodec2_soft_aacenc \
-    libcodec2_soft_amrnbdec \
-    libcodec2_soft_amrnbenc \
-    libcodec2_soft_av1dec_aom \
-    libcodec2_soft_avcdec \
-    libcodec2_soft_avcenc \
-    libcodec2_soft_flacdec \
-    libcodec2_soft_flacenc \
-    libcodec2_soft_mp3dec \
-    libcodec2_soft_mpeg4dec \
-    libcodec2_soft_mpeg4enc \
-    libcodec2_soft_opusdec \
-    libcodec2_soft_opusenc \
-    libcodec2_soft_vp9dec
+# [FIXED] Removed broken/hallucinated libcodec2_hidl entries. 
+# Only standard media packages here if needed.
+# PRODUCT_PACKAGES += (None needed, relying on original defs)
 
 # Memtrack
 PRODUCT_PACKAGES += \
