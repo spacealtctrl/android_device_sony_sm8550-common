@@ -1,200 +1,517 @@
 #
-# Copyright (C) 2021 The LineageOS Project
+# Copyright (C) 2023 The LineageOS Project
 #
 # SPDX-License-Identifier: Apache-2.0
 #
 
-DEVICE_PATH := device/sony/sm8550-common
+# Add common definitions for Qualcomm
+$(call inherit-product, hardware/qcom-caf/common/common.mk)
 
-# Inherit from AOSP
-$(call inherit-product, $(SRC_TARGET_DIR)/product/base.mk)
+# A/B
+$(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/launch_with_vendor_ramdisk.mk)
 
-# Inherit from SM8550 common
-$(call inherit-product, device/qcom/sm8550/common.mk)
+AB_OTA_POSTINSTALL_CONFIG += \
+    RUN_POSTINSTALL_system=true \
+    POSTINSTALL_PATH_system=system/bin/otapreopt_script \
+    FILESYSTEM_TYPE_system=ext4 \
+    POSTINSTALL_OPTIONAL_system=true
 
-# Setup device specific product configuration.
-PRODUCT_BRAND := sony
-PRODUCT_DEVICE := sm8550-common
-PRODUCT_MANUFACTURER := Sony
-PRODUCT_MODEL := sm8550-common
-PRODUCT_NAME := sm8550-common
+AB_OTA_POSTINSTALL_CONFIG += \
+    RUN_POSTINSTALL_vendor=true \
+    POSTINSTALL_PATH_vendor=bin/checkpoint_gc \
+    FILESYSTEM_TYPE_vendor=erofs \
+    POSTINSTALL_OPTIONAL_vendor=true
+
+PRODUCT_PACKAGES += \
+    checkpoint_gc \
+    otapreopt_script
+
+# APEX
+$(call inherit-product, $(SRC_TARGET_DIR)/product/updatable_apex.mk)
 
 # Audio
 PRODUCT_PACKAGES += \
     android.hardware.audio@7.0 \
+    android.hardware.audio@7.1-impl \
     android.hardware.audio.effect@7.0 \
+    android.hardware.audio.effect@7.0-impl \
+    android.hardware.audio.service \
+    android.hardware.bluetooth.audio-impl \
+    android.hardware.soundtrigger@2.3-impl \
+    audio.bluetooth.default \
     audio.primary.sm8550 \
     audio.r_submix.default \
     audio.usb.default \
+    audioadsprpcd \
+    libagm_compress_plugin \
+    libagm_mixer_plugin \
+    libagm_pcm_plugin \
     libaudio-resampler \
     libaudioroute \
+    libbatterylistener \
+    libfmpal \
+    libhfp_pal \
+    libqcompostprocbundle \
+    libqcomvisualizer \
+    libqcomvoiceprocessing \
     libtinyalsa \
+    libtinycompress \
+    libvolumelistener \
     sound_trigger.primary.kalama
 
-PRODUCT_COPY_FILES += \
-    $(DEVICE_PATH)/audio/audio_effects.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio/sku_kalama/audio_effects.xml
+AUDIO_HAL_DIR := hardware/qcom-caf/sm8550/audio/primary-hal
+CONFIG_HAL_SRC_DIR := $(AUDIO_HAL_DIR)/configs/kalama
+CONFIG_PAL_SRC_DIR := $(AUDIO_HAL_DIR)/../pal/configs/kalama
 
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.audio.recording.echosuppression=true
+PRODUCT_COPY_FILES += \
+    $(AUDIO_HAL_DIR)/configs/common/audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_policy_configuration.xml \
+    $(CONFIG_HAL_SRC_DIR)/audio_effects.conf:$(TARGET_COPY_OUT_VENDOR)/etc/audio/sku_kalama/audio_effects.conf \
+    $(CONFIG_PAL_SRC_DIR)/card-defs.xml:$(TARGET_COPY_OUT_VENDOR)/etc/card-defs.xml
+
+# [FIX] Copy Audio Effects XML for Dolby
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/audio/audio_effects.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio/sku_kalama/audio_effects.xml
+
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/audio/audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio/audio_policy_configuration.xml \
+    $(LOCAL_PATH)/audio/audio_policy_volumes.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_policy_volumes.xml \
+    $(LOCAL_PATH)/audio/default_volume_tables.xml:$(TARGET_COPY_OUT_VENDOR)/etc/default_volume_tables.xml \
+    $(LOCAL_PATH)/audio/microphone_characteristics.xml:$(TARGET_COPY_OUT_VENDOR)/etc/microphone_characteristics.xml \
+    $(LOCAL_PATH)/audio/mixer_paths.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio/sku_kalama/mixer_paths_kalama_cdp.xml \
+    $(LOCAL_PATH)/audio/mixer_paths.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio/sku_kalama/mixer_paths_kalama_grd.xml \
+    $(LOCAL_PATH)/audio/mixer_paths.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio/sku_kalama/mixer_paths_kalama_mtp.xml \
+    $(LOCAL_PATH)/audio/mixer_paths.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio/sku_kalama/mixer_paths_kalama_qrd.xml \
+    $(LOCAL_PATH)/audio/mixer_paths.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio/sku_kalama/mixer_paths_kalama_cdp_wsa883x.xml \
+    $(LOCAL_PATH)/audio/resourcemanager.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio/sku_kalama/resourcemanager_kalama_cdp.xml \
+    $(LOCAL_PATH)/audio/resourcemanager.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio/sku_kalama/resourcemanager_kalama_grd.xml \
+    $(LOCAL_PATH)/audio/resourcemanager.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio/sku_kalama/resourcemanager_kalama_mtp.xml \
+    $(LOCAL_PATH)/audio/resourcemanager.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio/sku_kalama/resourcemanager_kalama_qrd.xml \
+    $(LOCAL_PATH)/audio/audio_app_white_list.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_app_white_list.xml \
+    $(LOCAL_PATH)/audio/usecaseKvManager.xml:$(TARGET_COPY_OUT_ODM)/etc/usecaseKvManager.xml \
+    $(LOCAL_PATH)/audio/usecaseKvManager.xml:$(TARGET_COPY_OUT_VENDOR)/etc/usecaseKvManager.xml
+
+PRODUCT_COPY_FILES += \
+    frameworks/av/services/audiopolicy/config/r_submix_audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/r_submix_audio_policy_configuration.xml \
+    frameworks/av/services/audiopolicy/config/usb_audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/usb_audio_policy_configuration.xml \
+    frameworks/native/data/etc/android.hardware.audio.low_latency.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.audio.low_latency.xml \
+    frameworks/native/data/etc/android.hardware.audio.pro.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.audio.pro.xml \
+    frameworks/native/data/etc/android.software.midi.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.midi.xml
+
+# Authsecret
+PRODUCT_PACKAGES += \
+    android.hardware.authsecret@1.0.vendor
 
 # Bluetooth
 PRODUCT_PACKAGES += \
-    android.hardware.bluetooth@1.1
+    lib_bt_aptx \
+    lib_bt_ble \
+    lib_bt_bundle
+
+PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/android.hardware.bluetooth.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.bluetooth.xml \
+    frameworks/native/data/etc/android.hardware.bluetooth_le.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.bluetooth_le.xml
+
+# Boot control
+PRODUCT_PACKAGES += \
+    android.hardware.boot-service.qti \
+    android.hardware.boot-service.qti.recovery
 
 # Camera
-PRODUCT_PACKAGES += \
-    android.hardware.camera.provider@2.7 \
-    libcamera2ndk_vendor
+PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/android.hardware.camera.ar.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.ar.xml \
+    frameworks/native/data/etc/android.hardware.camera.concurrent.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.concurrent.xml \
+    frameworks/native/data/etc/android.hardware.camera.external.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.external.xml \
+    frameworks/native/data/etc/android.hardware.camera.flash-autofocus.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.flash-autofocus.xml \
+    frameworks/native/data/etc/android.hardware.camera.front.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.front.xml \
+    frameworks/native/data/etc/android.hardware.camera.full.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.full.xml \
+    frameworks/native/data/etc/android.hardware.camera.raw.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.raw.xml \
+    frameworks/native/data/etc/android.hardware.camera.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.xml
 
 # Dalvik
+# [FIX] Increased heap size for Dolby processing
 PRODUCT_PROPERTY_OVERRIDES += \
     dalvik.vm.heapsize=12288m
 
+# DebugFS
+PRODUCT_SET_DEBUGFS_RESTRICTIONS := true
+
 # Display
 PRODUCT_PACKAGES += \
-    android.hardware.graphics.composer@3.0 \
-    android.hardware.graphics.mapper@4.0 \
-    android.hardware.memtrack@1.0 \
-    libqdmetadata \
-    libqdutils
+    android.hardware.graphics.mapper@4.0-impl-qti-display \
+    init.qti.display_boot.rc \
+    init.qti.display_boot.sh \
+    vendor.qti.hardware.display.allocator-service \
+    vendor.qti.hardware.display.composer-service \
+    vendor.qti.hardware.display.demura-service
+
+PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/android.hardware.touchscreen.multitouch.jazzhand.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.touchscreen.multitouch.jazzhand.xml
 
 # DRM
 PRODUCT_PACKAGES += \
-    android.hardware.drm@1.4 \
-    android.hardware.drm@1.3
+    android.hardware.drm-service.clearkey
+
+# Dummy sony packages
+PRODUCT_PACKAGES += \
+    com.sony.idd_dummy \
+    com.sony.device
+
+# Enforce generic ramdisk allow list
+$(call inherit-product, $(SRC_TARGET_DIR)/product/generic_ramdisk.mk)
+
+# Fastboot
+PRODUCT_PACKAGES += \
+    android.hardware.fastboot-service.example_recovery \
+    fastbootd
 
 # Fingerprint
 PRODUCT_PACKAGES += \
-    android.hardware.biometrics.fingerprint@2.3
+    android.hardware.biometrics.fingerprint-service.lineage
 
-# GNSS
-PRODUCT_PACKAGES += \
-    android.hardware.gnss@2.1 \
-    android.hardware.gnss.measurement_corrections@1.1 \
-    android.hardware.gnss.visibility@1.0
+PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/android.hardware.fingerprint.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.fingerprint.xml
+
+# Fatab
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/rootdir/fstab.default:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.qcom \
+    $(LOCAL_PATH)/rootdir/fstab.default:$(TARGET_COPY_OUT_RECOVERY)/root/first_stage_ramdisk/fstab.qcom \
+    $(LOCAL_PATH)/rootdir/fstab.default:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.qcom
 
 # GPS
-PRODUCT_PACKAGES += \
-    gps.sm8550
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/gps.conf:$(TARGET_COPY_OUT_VENDOR)/etc/gps.conf
+
+PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/android.hardware.location.gps.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.location.gps.xml
+
+# Graphics
+TARGET_USES_VULKAN = true
+
+PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/android.hardware.opengles.aep.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.opengles.aep.xml \
+    frameworks/native/data/etc/android.hardware.vulkan.compute-0.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.vulkan.compute.xml \
+    frameworks/native/data/etc/android.hardware.vulkan.level-1.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.vulkan.level.xml \
+    frameworks/native/data/etc/android.hardware.vulkan.version-1_3.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.vulkan.version.xml \
+    frameworks/native/data/etc/android.software.opengles.deqp.level-2022-03-01.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.opengles.deqp.level.xml \
+    frameworks/native/data/etc/android.software.vulkan.deqp.level-2022-03-01.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.vulkan.deqp.level.xml
 
 # Health
 PRODUCT_PACKAGES += \
-    android.hardware.health@2.1
+    android.hardware.health-service.qti \
+    android.hardware.health-service.qti_recovery
 
-# Keymaster
+# Hotword enrollment
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/privapp-permissions-hotword.xml:$(TARGET_COPY_OUT_PRODUCT)/etc/permissions/privapp-permissions-hotword.xml
+
+# Input
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/keylayout/gpio-keys.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/gpio-keys.kl
+
+# IPACM
 PRODUCT_PACKAGES += \
-    android.hardware.keymaster@4.1
+    ipacm \
+    IPACM_cfg.xml \
+    IPACM_Filter_cfg.xml
+
+# Init
+PRODUCT_PACKAGES += \
+    fstab.zram \
+    init.class_main.sh \
+    init.kernel.post_boot.sh \
+    init.kernel.post_boot-kalama.sh \
+    init.qcom.early_boot.sh \
+    init.qcom.msim.sh \
+    init.qcom.rc \
+    init.qcom.sh \
+    init.qti.kernel.rc \
+    init.recovery.qcom.rc \
+    init.target.rc \
+    init.sony-device-common.rc \
+    init.sony-platform.rc \
+    init.sony.rc \
+    ueventd.qcom.rc \
+    ueventd.sony.rc
+
+# Keymint
+PRODUCT_PACKAGES += \
+    android.hardware.hardware_keystore.xml
+
+PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/android.hardware.keystore.app_attest_key.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.keystore.app_attest_key.xml \
+    frameworks/native/data/etc/android.software.device_id_attestation.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.device_id_attestation.xml
+
+# Lineage Health
+PRODUCT_PACKAGES += \
+    vendor.lineage.health-service.default
+
+$(call soong_config_set,lineage_health,charging_control_charging_path,/sys/class/battchg_ext/smart_charging_interruption)
+$(call soong_config_set,lineage_health,charging_control_charging_enabled,0)
+$(call soong_config_set,lineage_health,charging_control_charging_disabled,1)
+
+# LiveDisplay
+PRODUCT_PACKAGES += \
+    vendor.lineage.livedisplay-service.sdm
+
+$(call soong_config_set,livedisplay_sdm,enable_dm,false)
 
 # Media
-PRODUCT_PACKAGES += \
-    android.hardware.media.omx@1.0 \
-    android.hardware.mediadrm@1.4 \
-    libmediaplayerservice \
-    libstagefright_soft_ac3 \
-    libstagefright_soft_aacenc \
-    libstagefright_soft_amrnbdec \
-    libstagefright_soft_amrwbdec \
-    libstagefright_soft_av1dec_aom \
-    libstagefright_soft_avcdec \
-    libstagefright_soft_avcenc \
-    libstagefright_soft_flacenc \
-    libstagefright_soft_flachdtsdec \
-    libstagefright_soft_gsmdec \
-    libstagefright_soft_hevcdec \
-    libstagefright_soft_hevcenc \
-    libstagefright_soft_mp3dec \
-    libstagefright_soft_mpeg2dec \
-    libstagefright_soft_mpeg4dec \
-    libstagefright_soft_mpeg4enc \
-    libstagefright_soft_ogg \
-    libstagefright_soft_opusdec \
-    libstagefright_soft_opusenc \
-    libstagefright_soft_rawdec \
-    libstagefright_soft_vp8dec \
-    libstagefright_soft_vp9dec \
-    libstagefright_soft_vp9enc \
-    libstagefright_soft_vorbisdec \
-    libstagefright_soft_vpxdec
+PRODUCT_COPY_FILES += \
+    $(AUDIO_HAL_DIR)/configs/common/codec2/media_codecs_c2_audio.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_c2_audio.xml \
+    $(AUDIO_HAL_DIR)/configs/common/codec2/service/1.0/c2audio.vendor.base-arm64.policy:$(TARGET_COPY_OUT_VENDOR)/etc/seccomp_policy/c2audio.vendor.base-arm64.policy \
+    $(AUDIO_HAL_DIR)/configs/common/codec2/service/1.0/c2audio.vendor.ext-arm64.policy:$(TARGET_COPY_OUT_VENDOR)/etc/seccomp_policy/c2audio.vendor.ext-arm64.policy \
+    $(LOCAL_PATH)/media/media_codecs_performance_kalama_vendor.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_performance_kalama.xml \
+    $(LOCAL_PATH)/media/media_codecs_performance_kalama_vendor.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_performance_kalama_vendor.xml \
+    $(LOCAL_PATH)/media/media_codecs_kalama_vendor.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_kalama.xml \
+    $(LOCAL_PATH)/media/media_codecs_kalama_vendor.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_kalama_vendor.xml
 
-# Media Codecs
+# [FIX] Enhanced Media Codec Support (Codec2)
 PRODUCT_PACKAGES += \
-    android.hardware.media.c2@1.2
+    android.hardware.media.c2@1.2 \
+    libcodec2_hidl \
+    libcodec2_soft_aacdec \
+    libcodec2_soft_aacenc \
+    libcodec2_soft_amrnbdec \
+    libcodec2_soft_amrnbenc \
+    libcodec2_soft_av1dec_aom \
+    libcodec2_soft_avcdec \
+    libcodec2_soft_avcenc \
+    libcodec2_soft_flacdec \
+    libcodec2_soft_flacenc \
+    libcodec2_soft_mp3dec \
+    libcodec2_soft_mpeg4dec \
+    libcodec2_soft_mpeg4enc \
+    libcodec2_soft_opusdec \
+    libcodec2_soft_opusenc \
+    libcodec2_soft_vp9dec
 
 # Memtrack
 PRODUCT_PACKAGES += \
-    android.hardware.memtrack@1.0-service
+    vendor.qti.hardware.memtrack-service
 
-# Neural Networks
+# Net
 PRODUCT_PACKAGES += \
-    android.hardware.neuralnetworks@1.3
+    netutils-wrapper-1.0
 
 # NFC
 PRODUCT_PACKAGES += \
-    android.hardware.nfc@1.2
+    com.android.nfc_extras \
+    libchrome.vendor \
+    Tag \
+    nqnfcinfo
 
-# OMX
+PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/android.hardware.nfc.ese.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.nfc.ese.xml \
+    frameworks/native/data/etc/android.hardware.nfc.hce.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.nfc.hce.xml \
+    frameworks/native/data/etc/android.hardware.nfc.hcef.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.nfc.hcef.xml \
+    frameworks/native/data/etc/android.hardware.nfc.uicc.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.nfc.uicc.xml \
+    frameworks/native/data/etc/android.hardware.nfc.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.nfc.xml \
+    frameworks/native/data/etc/android.hardware.se.omapi.ese.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.se.omapi.ese.xml \
+    frameworks/native/data/etc/android.hardware.se.omapi.uicc.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.se.omapi.uicc.xml \
+    frameworks/native/data/etc/com.nxp.mifare.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/com.nxp.mifare.xml
+
+# Overlays
+DEVICE_PACKAGE_OVERLAYS += \
+    $(LOCAL_PATH)/overlay-lineage
+
+PRODUCT_ENFORCE_RRO_TARGETS := *
 PRODUCT_PACKAGES += \
-    libOmxCore \
-    libOmxVdec \
-    libOmxVenc \
-    libstagefright_omx
+    CarrierConfigResCommon \
+    NcmTetheringOverlay \
+    SimDualResCommon \
+    SimSingleResCommon \
+    SonyYodoDeviceAsWebcamResCommon \
+    SonyYodoFrameworksResCommon \
+    SonyYodoSettingsProviderOverlayCommon \
+    SonyYodoSettingsResCommon \
+    SonyYodoSystemUIResCommon \
+    SonyYodoTelephonyResCommon \
+    WifiResCommon
+
+# Partitions
+PRODUCT_PACKAGES += \
+    vendor_bt_firmware_mountpoint \
+    vendor_dsp_mountpoint \
+    vendor_firmware_mnt_mountpoint
+
+PRODUCT_USE_DYNAMIC_PARTITIONS := true
 
 # Power
 PRODUCT_PACKAGES += \
-    android.hardware.power@1.2 \
-    android.hardware.power.stats@1.0
+    android.hardware.power-service-qti
+
+PRODUCT_COPY_FILES += \
+    vendor/qcom/opensource/power/config/kalama/powerhint.xml:$(TARGET_COPY_OUT_VENDOR)/etc/powerhint.xml
+
+$(call soong_config_set,qtipower,mode_ext_lib,//$(LOCAL_PATH):libpowermode-ext-sony)
+
+# PowerShare
+PRODUCT_PACKAGES += \
+    vendor.lineage.powershare-service.default
+
+$(call soong_config_set,lineage_powershare,powershare_path,/sys/class/qcom-battery/wireless_boost_en)
+
+# Public libraries
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/public.libraries.txt:$(TARGET_COPY_OUT_VENDOR)/etc/public.libraries.txt
+
+# QMI
+PRODUCT_PACKAGES += \
+    libvndfwk_detect_jni.qti_vendor
 
 # Sensors
 PRODUCT_PACKAGES += \
-    android.hardware.sensors@2.1 \
-    libsensorndkbridge
+    android.hardware.sensors-service.multihal \
+    sensors.dynamic_sensor_hal
+
+PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/android.hardware.sensor.accelerometer.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/sku_kalama/android.hardware.sensor.accelerometer.xml \
+    frameworks/native/data/etc/android.hardware.sensor.barometer.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/sku_kalama/android.hardware.sensor.barometer.xml \
+    frameworks/native/data/etc/android.hardware.sensor.compass.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/sku_kalama/android.hardware.sensor.compass.xml \
+    frameworks/native/data/etc/android.hardware.sensor.dynamic.head_tracker.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/sku_kalama/android.hardware.sensor.dynamic.head_tracker.xml \
+    frameworks/native/data/etc/android.hardware.sensor.gyroscope.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/sku_kalama/android.hardware.sensor.gyroscope.xml \
+    frameworks/native/data/etc/android.hardware.sensor.light.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/sku_kalama/android.hardware.sensor.light.xml \
+    frameworks/native/data/etc/android.hardware.sensor.proximity.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/sku_kalama/android.hardware.sensor.proximity.xml \
+    frameworks/native/data/etc/android.hardware.sensor.stepcounter.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/sku_kalama/android.hardware.sensor.stepcounter.xml \
+    frameworks/native/data/etc/android.hardware.sensor.stepdetector.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/sku_kalama/android.hardware.sensor.stepdetector.xml
+
+# Shipping API
+BOARD_SHIPPING_API_LEVEL := 33
+PRODUCT_SHIPPING_API_LEVEL := $(BOARD_SHIPPING_API_LEVEL)
+
+# Soong namespaces
+PRODUCT_SOONG_NAMESPACES += \
+    $(LOCAL_PATH) \
+    hardware/sony
+
+# Storage
+$(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
+
+# Telephony
+PRODUCT_PACKAGES += \
+    SonyEuicc \
+    extphonelib \
+    extphonelib-product \
+    extphonelib.xml \
+    extphonelib_product.xml \
+    ims-ext-common \
+    ims_ext_common.xml \
+    qti-telephony-hidl-wrapper \
+    qti-telephony-hidl-wrapper-prd \
+    qti_telephony_hidl_wrapper.xml \
+    qti_telephony_hidl_wrapper_prd.xml \
+    qti-telephony-utils \
+    qti-telephony-utils-prd \
+    qti_telephony_utils.xml \
+    qti_telephony_utils_prd.xml \
+    QtiTelephonyCompat \
+    telephony-ext
+
+PRODUCT_PACKAGES += \
+    qcrilNrDb_vendor
+
+PRODUCT_BOOT_JARS += \
+    telephony-ext
+
+PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/android.hardware.telephony.euicc.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.telephony.euicc.xml \
+    frameworks/native/data/etc/android.hardware.telephony.gsm.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.telephony.gsm.xml \
+    frameworks/native/data/etc/android.hardware.telephony.ims.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.telephony.ims.xml \
+    frameworks/native/data/etc/android.hardware.telephony.mbms.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.telephony.mbms.xml \
+    frameworks/native/data/etc/android.software.sip.voip.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.sip.voip.xml \
+    $(LOCAL_PATH)/configs/privapp-permissions-qti.xml:$(TARGET_COPY_OUT_SYSTEM_EXT)/etc/permissions/privapp-permissions-qti.xml \
+    $(LOCAL_PATH)/configs/privapp-permissions-euiccgoogle.xml:$(TARGET_COPY_OUT_PRODUCT)/etc/permissions/privapp-permissions-euiccgoogle.xml
 
 # Thermal
 PRODUCT_PACKAGES += \
-    android.hardware.thermal@2.0
+    android.hardware.thermal-service.qti
+
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/thermal-engine.conf:$(TARGET_COPY_OUT_VENDOR)/etc/thermal-engine.conf
+
+# Touch
+PRODUCT_PACKAGES += \
+    vendor.lineage.touch-service.sony
+
+# Update engine
+PRODUCT_PACKAGES += \
+    update_engine \
+    update_engine_sideload \
+    update_verifier
+
+PRODUCT_PACKAGES_DEBUG += \
+    update_engine_client
 
 # USB
 PRODUCT_PACKAGES += \
-    android.hardware.usb@1.3 \
-    android.hardware.usb.gadget@1.2 \
-    com.android.future.usb.accessory
+    android.hardware.usb-service.qti \
+    android.hardware.usb.gadget-service.qti
+
+PRODUCT_PACKAGES += \
+    init.qcom.usb.rc \
+    init.qcom.usb.sh
+
+PRODUCT_SOONG_NAMESPACES += \
+    vendor/qcom/opensource/usb/etc
+
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/usb/usb_compositions.conf:$(TARGET_COPY_OUT_ODM)/etc/usb_compositions.conf
+
+PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/android.hardware.usb.accessory.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.usb.accessory.xml \
+    frameworks/native/data/etc/android.hardware.usb.host.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.usb.host.xml
+
+# Vendor service manager
+PRODUCT_PACKAGES += \
+    vndservicemanager
+
+# Verified Boot
+PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/android.software.verified_boot.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.verified_boot.xml
 
 # Vibrator
 PRODUCT_PACKAGES += \
-    android.hardware.vibrator@1.4
+    android.hardware.vibrator-sony.service.cs40l25
+
+PRODUCT_COPY_FILES += \
+    vendor/qcom/opensource/vibrator/excluded-input-devices.xml:$(TARGET_COPY_OUT_VENDOR)/etc/excluded-input-devices.xml
 
 # WiFi
 PRODUCT_PACKAGES += \
-    android.hardware.wifi@1.7 \
-    android.hardware.wifi.hostapd@1.0 \
+    android.hardware.wifi-service \
     hostapd \
+    libwifi-hal-ctrl \
     libwifi-hal-qcom \
+    vendor.qti.hardware.wifi.hostapd@1.2.vendor \
+    vendor.qti.hardware.wifi.supplicant@2.1.vendor \
     wpa_supplicant \
     wpa_supplicant.conf
 
+PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/android.hardware.wifi.direct.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.wifi.direct.xml \
+    frameworks/native/data/etc/android.hardware.wifi.passpoint.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.wifi.passpoint.xml \
+    frameworks/native/data/etc/android.hardware.wifi.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.wifi.xml \
+    frameworks/native/data/etc/android.software.ipsec_tunnels.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.ipsec_tunnels.xml
+
+# WiFi firmware symlinks
+PRODUCT_PACKAGES += \
+    firmware_wlanmdsp.otaupdate_symlink \
+    firmware_wlan_mac.bin_symlink \
+    firmware_WCNSS_qcom_cfg.ini_symlink
+
 # WiFi Display
-PRODUCT_PACKAGES += \
-    android.hardware.tv.hdmi.earc@1.0
-
-# WirelessData
-PRODUCT_PACKAGES += \
-    android.hardware.radio@1.6 \
-    android.hardware.radio.config@1.3
-
-# Fstab
 PRODUCT_COPY_FILES += \
-    $(DEVICE_PATH)/rootdir/etc/fstab.sm8550:$(TARGET_COPY_OUT_RAMDISK)/fstab.sm8550 \
-    $(DEVICE_PATH)/rootdir/etc/fstab.sm8550:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.sm8550
+    $(LOCAL_PATH)/configs/privapp-permissions-wfd.xml:$(TARGET_COPY_OUT_SYSTEM)/etc/permissions/privapp-permissions-wfd.xml
 
-# Init scripts
-PRODUCT_COPY_FILES += \
-    $(DEVICE_PATH)/rootdir/etc/init.sm8550.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.sm8550.rc \
-    $(DEVICE_PATH)/rootdir/etc/init.sm8550.usb.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.sm8550.usb.rc \
-    $(DEVICE_PATH)/rootdir/etc/ueventd.sm8550.rc:$(TARGET_COPY_OUT_VENDOR)/etc/ueventd.sm8550.rc
+# XperiaParts
+PRODUCT_PACKAGES += \
+    XperiaParts
 
-# Overlays
-DEVICE_PACKAGE_OVERLAYS += $(DEVICE_PATH)/overlay
-DEVICE_PACKAGE_OVERLAYS += $(DEVICE_PATH)/overlay-lineage
+# Dolby
+$(call inherit-product, vendor/dolby/audio.mk)
 
-# Properties
--include $(DEVICE_PATH)/BoardConfigVendor.mk
+# Sony Extra Apps
+$(call inherit-product-if-exists, vendor/sony/extra/extra.mk)
+
+# Inherit from proprietary files makefile
+$(call inherit-product, vendor/sony/sm8550-common/sm8550-common-vendor.mk)
