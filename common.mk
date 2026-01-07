@@ -350,8 +350,7 @@ PRODUCT_SHIPPING_API_LEVEL := $(BOARD_SHIPPING_API_LEVEL)
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += \
     $(LOCAL_PATH) \
-    hardware/sony \
-    hardware/qcom-caf/sm8550
+    hardware/sony
 
 # Storage
 $(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
@@ -477,7 +476,7 @@ PRODUCT_PACKAGES += \
     XperiaParts
 
 # Dolby
-$(call inherit-product-if-exists, vendor/sony/dolby/audio.mk)
+$(call inherit-product-if-exists, vendor/dolby/audio.mk)
 
 # Sony Extra Apps
 $(call inherit-product-if-exists, vendor/sony/extra/extra.mk)
