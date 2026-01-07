@@ -476,7 +476,7 @@ PRODUCT_PACKAGES += \
     XperiaParts
 
 # Dolby
-$(call inherit-product, vendor/dolby/audio.mk)
+$(call inherit-product-if-exists, vendor/sony/dolby/audio.mk)
 
 # Sony Extra Apps
 $(call inherit-product-if-exists, vendor/sony/extra/extra.mk)
