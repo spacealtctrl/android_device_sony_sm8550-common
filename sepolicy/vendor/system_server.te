@@ -1,0 +1,6 @@
+# Allow system_server to communicate with Vendor HAL via vndbinder
+# This fixes "avc: denied { write } for name="vndbinder"" errors
+# Required for MusicFX to properly communicate with audio HAL
+
+allow system_server vndbinder_device:chr_file { read write open ioctl };
+
