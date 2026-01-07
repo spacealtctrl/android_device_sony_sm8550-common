@@ -76,11 +76,11 @@
         <library name="audiosphere" path="libasphere.so"/>
         <library name="quasar" path="libquasar.so"/>
         <!-- Dolby -->
-        <library name="dap_sw" path="libswdap.so"/>
-        <library name="dap_hw" path="libhwdap.so"/>
-        <library name="gamedap" path="libswgamedap.so"/>
-        <library name="vqe" path="libswvqe.so"/>
-        <library name="dlbvol" path="libdlbvol.so"/>
+        <library name="dap_sw" path="soundfx/libswdap.so"/>
+        <!-- libhwdap.so is not available for this device - using software DAP only -->
+        <library name="gamedap" path="soundfx/libswgamedap.so"/>
+        <library name="vqe" path="soundfx/libswvqe.so"/>
+        <library name="dlbvol" path="soundfx/libdlbvol.so"/>
     </libraries>
     <effects>
         <effectProxy name="bassboost" library="proxy" uuid="14804144-a5ee-4d24-aa88-0002a5d5c51b">
@@ -131,9 +131,13 @@
         <effect name="quasar" library="quasar" uuid="71d0e2ee-e44d-483d-a809-09e75ee55ecd"/>
         <!-- Dolby DAP -->
         <effect name="dap" library="dap_sw" uuid="9d4921da-8225-4f29-aefa-39537a04bcaa" type="ec7178ec-e5e1-4432-a3f4-4657e6795210"/>
+        <effectProxy name="dap_proxy" library="proxy" uuid="ec7178ec-e5e1-4432-a3f4-4657e6795210">
+            <libsw library="dap_sw" uuid="9d4921da-8225-4f29-aefa-39537a04bcaa"/>
+        </effectProxy>
         <effect name="gamedap" library="gamedap" uuid="0b5fa081-3573-4ab3-9754-424f3ee3e955"/>
         <effect name="vqe" library="vqe" uuid="64c04eac-0d4f-4685-af2f-57e3b4ae6dbc"/>
         <effect name="dlbvol" library="dlbvol" uuid="ae4b7b52-c3d3-4f1a-9766-428c4c599e7c"/>
+        <!-- MusicFX effect - uses equalizer proxy for compatibility -->
     </effects>
     <postprocess>
         <stream type="music">

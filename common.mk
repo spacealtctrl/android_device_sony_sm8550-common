@@ -61,6 +61,7 @@ PRODUCT_COPY_FILES += \
     $(AUDIO_HAL_DIR)/configs/common/audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_policy_configuration.xml \
     $(CONFIG_HAL_SRC_DIR)/audio_effects.conf:$(TARGET_COPY_OUT_VENDOR)/etc/audio/sku_kalama/audio_effects.conf \
     $(LOCAL_PATH)/audio/audio_effects.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio/sku_kalama/audio_effects.xml \
+    $(LOCAL_PATH)/audio/audio_effects.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_effects.xml \
     $(CONFIG_PAL_SRC_DIR)/card-defs.xml:$(TARGET_COPY_OUT_VENDOR)/etc/card-defs.xml
 
 PRODUCT_COPY_FILES += \
@@ -476,7 +477,7 @@ PRODUCT_PACKAGES += \
     XperiaParts
 
 # Dolby
-$(call inherit-product-if-exists, vendor/dolby/audio.mk)
+$(call inherit-product, vendor/dolby/audio.mk)
 
 # Sony Extra Apps
 $(call inherit-product-if-exists, vendor/sony/extra/extra.mk)
