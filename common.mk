@@ -51,7 +51,6 @@ PRODUCT_PACKAGES += \
     libqcomvoiceprocessing \
     libtinycompress \
     libvolumelistener \
-    sound_trigger.primary.kalama
 
 AUDIO_HAL_DIR := hardware/qcom-caf/sm8550/audio/primary-hal
 CONFIG_HAL_SRC_DIR := $(AUDIO_HAL_DIR)/configs/kalama
@@ -482,6 +481,3 @@ $(call inherit-product, vendor/sony/extra/extra.mk)
 
 # Inherit from proprietary files makefile
 $(call inherit-product, vendor/sony/sm8550-common/sm8550-common-vendor.mk)
-
-# KILL LIST: Remove stock audio apps so SonyMusicFX stands alone
-PRODUCT_PACKAGES := $(filter-out AudioFX MusicFX com.android.musicfx org.lineageos.audiofx,$(PRODUCT_PACKAGES))
