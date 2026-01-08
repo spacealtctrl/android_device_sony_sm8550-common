@@ -35,7 +35,6 @@ PRODUCT_PACKAGES += \
     android.hardware.audio.effect@7.0-impl \
     android.hardware.audio.service \
     android.hardware.bluetooth.audio-impl \
-    android.hardware.soundtrigger@2.3-impl \
     audio.bluetooth.default \
     audio.r_submix.default \
     audio.usb.default \
@@ -51,7 +50,6 @@ PRODUCT_PACKAGES += \
     libqcomvoiceprocessing \
     libtinycompress \
     libvolumelistener \
-    sound_trigger.primary.kalama
 
 AUDIO_HAL_DIR := hardware/qcom-caf/sm8550/audio/primary-hal
 CONFIG_HAL_SRC_DIR := $(AUDIO_HAL_DIR)/configs/kalama
@@ -349,7 +347,9 @@ PRODUCT_SHIPPING_API_LEVEL := $(BOARD_SHIPPING_API_LEVEL)
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += \
     $(LOCAL_PATH) \
-    hardware/sony
+    hardware/sony \
+    hardware/qcom-caf/sm8550 \
+    hardware/qcom-caf/common
 
 # Storage
 $(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
@@ -478,8 +478,7 @@ PRODUCT_PACKAGES += \
 $(call inherit-product, vendor/dolby/audio.mk)
 
 # Sony Extra Apps
-$(call inherit-product-if-exists, vendor/sony/extra/extra.mk)
+$(call inherit-product, vendor/sony/extra/extra.mk)
 
 # Inherit from proprietary files makefile
 $(call inherit-product, vendor/sony/sm8550-common/sm8550-common-vendor.mk)
-
