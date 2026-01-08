@@ -238,7 +238,7 @@ $(call soong_config_set,lineage_health,charging_control_charging_disabled,1)
 
 # LiveDisplay
 PRODUCT_PACKAGES += \
-    vendor.lineage.livedisplay-service.sdm
+    vendor.lineage.livedisplay-service.sysfs
 
 $(call soong_config_set_bool,livedisplay_sdm,enable_dm,false)
 
