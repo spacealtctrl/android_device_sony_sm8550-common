@@ -483,16 +483,5 @@ $(call inherit-product-if-exists, vendor/sony/extra/extra.mk)
 # Inherit from proprietary files makefile
 $(call inherit-product, vendor/sony/sm8550-common/sm8550-common-vendor.mk)
 
-# SCORCHED EARTH: Remove all competing equalizers
-# This ensures competing audio apps are physically deleted from the build output
-# MusicFX is the sole audio controller - no "Open With" picker should appear
-PRODUCT_PACKAGES := $(filter-out SoundEnhancement, $(PRODUCT_PACKAGES))
-PRODUCT_PACKAGES := $(filter-out AudioFX, $(PRODUCT_PACKAGES))
-PRODUCT_PACKAGES := $(filter-out org.lineageos.audiofx, $(PRODUCT_PACKAGES))
-
-# Force exclude via filter list
-PRODUCT_PACKAGES_FILTER += SoundEnhancement
-PRODUCT_PACKAGES_FILTER += AudioFX
-
-# Ensure MusicFX is explicitly included (via vendor/dolby/audio.mk)
-# This is already included in audio.mk, but we verify it here
+# Audio configuration
+PRODUCT_PACKAGES := $(filter-out AudioFX org.lineageos.audiofx,$(PRODUCT_PACKAGES))
