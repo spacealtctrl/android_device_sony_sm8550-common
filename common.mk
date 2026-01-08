@@ -483,5 +483,5 @@ $(call inherit-product, vendor/sony/extra/extra.mk)
 # Inherit from proprietary files makefile
 $(call inherit-product, vendor/sony/sm8550-common/sm8550-common-vendor.mk)
 
-# Audio configuration
-PRODUCT_PACKAGES := $(filter-out AudioFX org.lineageos.audiofx,$(PRODUCT_PACKAGES))
+# KILL LIST: Remove stock audio apps so SonyMusicFX stands alone
+PRODUCT_PACKAGES := $(filter-out AudioFX MusicFX com.android.musicfx org.lineageos.audiofx,$(PRODUCT_PACKAGES))
