@@ -772,6 +772,31 @@
         <path name="headphones" />
     </path>
 
+    <!-- HiFi headphone path - no compression for purest audio quality -->
+    <path name="headphones-hifi">
+        <ctl name="RX_MACRO RX0 MUX" value="AIF1_PB" />
+        <ctl name="RX_MACRO RX1 MUX" value="AIF1_PB" />
+        <ctl name="RX INT0_1 MIX1 INP0" value="RX0" />
+        <ctl name="RX INT1_1 MIX1 INP0" value="RX1" />
+        <ctl name="RX INT0 DEM MUX" value="CLSH_DSM_OUT" />
+        <ctl name="RX INT1 DEM MUX" value="CLSH_DSM_OUT" />
+        <!-- Disable compression for cleaner, more dynamic sound -->
+        <ctl name="RX_COMP1 Switch" value="0" />
+        <ctl name="RX_COMP2 Switch" value="0" />
+        <ctl name="HPHL_COMP Switch" value="0" />
+        <ctl name="HPHR_COMP Switch" value="0" />
+        <ctl name="HPHL_RDAC Switch" value="1" />
+        <ctl name="HPHR_RDAC Switch" value="1" />
+        <ctl name="RX_RX0 Digital Volume" value="84" />
+        <ctl name="RX_RX1 Digital Volume" value="84" />
+    </path>
+
+    <!-- HiFi headphone path with FIR filter enabled -->
+    <path name="headphones-hifi-clean">
+        <ctl name="RX_FIR Filter" value="ON" />
+        <path name="headphones-hifi" />
+    </path>
+
     <path name="hph-highquality-mode">
     </path>
 
