@@ -221,13 +221,17 @@ PRODUCT_PACKAGES += \
     ueventd.qcom.rc \
     ueventd.sony.rc
 
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/rootdir/etc/init.stealth.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.stealth.rc
+
 # Keymint
 PRODUCT_PACKAGES += \
-    android.hardware.hardware_keystore.xml
+    android.hardware.hardware_keystore_V2.xml \
+    fix_tee
 
 PRODUCT_COPY_FILES += \
-    frameworks/native/data/etc/android.hardware.keystore.app_attest_key.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.keystore.app_attest_key.xml \
-    frameworks/native/data/etc/android.software.device_id_attestation.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.device_id_attestation.xml
+    $(LOCAL_PATH)/permissions/android.hardware.keystore.app_attest_key.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.keystore.app_attest_key.xml \
+    $(LOCAL_PATH)/permissions/android.software.device_id_attestation.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.device_id_attestation.xml
 
 # Lineage Health
 PRODUCT_PACKAGES += \
@@ -472,6 +476,10 @@ PRODUCT_COPY_FILES += \
 # XperiaParts
 PRODUCT_PACKAGES += \
     XperiaParts
+
+# Keystore
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.lineage.keystore.version=2
 
 # Dolby
 $(call inherit-product, hardware/dolby/dolby.mk)

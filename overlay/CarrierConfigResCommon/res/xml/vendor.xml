@@ -27,7 +27,7 @@
         <string name="default_vm_number_string" />
         <string name="wcdma_default_signal_strength_measurement_string">rssi</string>
         <string name="carrier_name_string" />
-        <string name="gps.supl_host">supl.google.com</string>
+        <string name="gps.supl_host"></string>
         <string name="gps.lpp_profile">2</string>
         <string name="gps.use_emergency_pdn_for_emergency_supl">0</string>
         <string name="gps.a_glonass_pos_protocol_select">2</string>
@@ -9459,7 +9459,7 @@
         <string name="gps.a_glonass_pos_protocol_select">6</string>
     </carrier_config>
     <carrier_config device="M4C4MMM" mcc="440" mnc="10" sku="jp_dcm">
-        <string name="gps.supl_host">supl.google.com</string>
+        <string name="gps.supl_host"></string>
     </carrier_config>
     <carrier_config board="taro" mcc="440" mnc="10" sku="jp_dcm">
         <string name="gps.supl_ver">0x20004</string>

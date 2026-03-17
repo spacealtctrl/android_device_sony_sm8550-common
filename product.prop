@@ -5,3 +5,21 @@ ro.config.vc_call_vol_steps=8
 # Dolby
 ro.audio.ignore_effects=false
 ro.audio.spatializer_enabled=true
+remote_provisioning.enable_rkpd=true
+remote_provisioning.hostname=remoteprovisioning.googleapis.com
+remote_provisioning.tee.rkp_only=1
+ro.hardware.keystore=mdfpp
+ro.hardware.keystore_desede=true
+ro.keystore.version=2
+
+# Google Client ID
+import /odm/etc/customization/oem/${ro.boot.hardware.sku}/config.prop *
+# De-Google Network
+captive_portal_http_url=http://connectivitycheck.android.com/generate_204
+captive_portal_https_url=https://connectivitycheck.android.com/generate_204
+captive_portal_fallback_url=http://connectivitycheck.android.com/generate_204
+ro.crdroid.stats.opt_out=1
+persist.lineage.stats=0
+ntp_server=pool.ntp.org
+ro.com.google.clientidbase=android-sonymobile
+ro.statsd.enable=false
