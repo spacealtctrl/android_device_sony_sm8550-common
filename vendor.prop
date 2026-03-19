@@ -313,3 +313,11 @@ wifi.aware.interface=wifi-aware0
 # Zygote
 zygote.critical_window.minute=10
 
+
+# FM Radio
+ro.vendor.fm.use_audio_session=true
+vendor.qcom.bluetooth.soc=hastings
+
+# FM Radio
+ro.vendor.fm.use_audio_session=true
+vendor.qcom.bluetooth.soc=hastings
