@@ -224,7 +224,7 @@ PRODUCT_PACKAGES += \
     ueventd.sony.rc
 
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/rootdir/etc/init.stealth.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.stealth.rc
+    $(LOCAL_PATH)/rootdir/etc/init.stealth.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.stealth.rc
 
 # Keymint
 PRODUCT_PACKAGES += \
@@ -481,7 +481,9 @@ PRODUCT_PACKAGES += \
 
 # Keystore
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.lineage.keystore.version=2
+    ro.lineage.keystore.version=2 \
+    ro.vendor.fm.use_audio_session=true \
+    vendor.qcom.bluetooth.soc=hastings
 
 # Dolby
 $(call inherit-product, hardware/dolby/dolby.mk)
