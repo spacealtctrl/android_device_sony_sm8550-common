@@ -3,3 +3,8 @@ on property:sys.boot_completed=1
 
 on late-init
     stop statsd
+
+# FM Radio properties (vendor.prop not loading at runtime)
+on early-init
+    setprop vendor.qcom.bluetooth.soc hastings
+    setprop ro.vendor.fm.use_audio_session true
