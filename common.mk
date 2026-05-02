@@ -477,6 +477,9 @@ PRODUCT_PACKAGES += \
 # Dolby
 $(call inherit-product, hardware/dolby/dolby.mk)
 
+PRODUCT_PACKAGES += \
+    LunarisDolby
+
 # Extra Sony vendor files
 $(call inherit-product, vendor/sony/extra/extra.mk)
 
